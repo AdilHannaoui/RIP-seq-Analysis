@@ -63,8 +63,3 @@ write.csv(sig_M12, file = file.path(OUTPUT_DIR, "DESeq2_M12_IP_vs_IN_sig.csv"))
 write.csv(sig_WT,  file = file.path(OUTPUT_DIR, "DESeq2_WT_IP_vs_IN_sig.csv"))
 
 cat("DESeq2 analysis completed. Results saved in:", OUTPUT_DIR, "\n")
-
-write.csv(as.data.frame(res_WT_vs_M1_sig), file = file.path(OUTPUT_DIR, "DESeq2_WT_vs_M1_sig.csv"))
-write.csv(as.data.frame(res_WT_vs_M12_sig), file = file.path(OUTPUT_DIR, "DESeq2_WT_vs_M12_sig.csv"))
-
-cat("DESeq2 analysis completed. Significant results saved in:", OUTPUT_DIR, "\n")
