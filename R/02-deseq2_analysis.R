@@ -59,8 +59,8 @@ res_WT_vs_M12_sig <- res_WT_vs_M12[which(res_WT_vs_M12$padj < PADJ_THRESHOLD), ]
 dir.create(OUTPUT_DIR, showWarnings = FALSE, recursive = TRUE)
 
 saveRDS(dds, file = file.path(OUTPUT_DIR, "dds.rds"))
-saveRDS(res_WT_vs_A_sig, file = file.path(OUTPUT_DIR, "DESeq2_WT_vs_M1_sig.rds"))
-saveRDS(res_WT_vs_D_sig, file = file.path(OUTPUT_DIR, "DESeq2_WT_vs_M12_sig.rds"))
+saveRDS(res_WT_vs_M1_sig, file = file.path(OUTPUT_DIR, "DESeq2_WT_vs_M1_sig.rds"))
+saveRDS(res_WT_vs_M12_sig, file = file.path(OUTPUT_DIR, "DESeq2_WT_vs_M12_sig.rds"))
 
 write.csv(as.data.frame(res_WT_vs_M1_sig), file = file.path(OUTPUT_DIR, "DESeq2_WT_vs_M1_sig.csv"))
 write.csv(as.data.frame(res_WT_vs_M12_sig), file = file.path(OUTPUT_DIR, "DESeq2_WT_vs_M12_sig.csv"))
