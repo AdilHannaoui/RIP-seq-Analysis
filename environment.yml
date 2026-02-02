@@ -1,0 +1,51 @@
+name: ripseq-rpb4
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+
+dependencies:
+  - python=3.10
+
+  # Core system
+  - r-base
+
+  # Bioinformatics tools
+  - fastqc=0.12.1
+  - trimmomatic=0.39
+  - bowtie2=2.5.4
+  - subread=2.0.6
+  - samtools=1.20
+  - bedtools=2.31.1
+  - macs2=2.2.9.1
+
+  # MEME Suite
+  - meme
+
+  # IGV
+  - igv
+  - igvtools
+
+  # Bioconductor
+  - bioconductor-deseq2
+  - bioconductor-chipseeker
+  - bioconductor-clusterprofiler
+  - bioconductor-reactomepa
+  - bioconductor-org.sc.sgd.db
+  - bioconductor-txdb.scerevisiae.ucsc.saccer3.sgdgene
+  - bioconductor-biostrings
+  - bioconductor-genomicranges
+  - bioconductor-bsgenome
+  - bioconductor-bsgenome.scerevisiae.ucsc.saccer3
+  - bioconductor-complexheatmap
+
+  # R packages (CRAN)
+  - r-pheatmap
+  - r-upsetr
+  - r-ggvenndiagram
+  - r-ggplot2
+  - r-ggrepel
+
+  # Optional utilities
+  - pigz
+  - parallel
