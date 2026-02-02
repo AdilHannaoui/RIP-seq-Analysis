@@ -1,39 +1,32 @@
 # ==========================
-# RIP-seq Analysis Config
+# RNA-seq Analysis Config
 # Author: Adil Hannaoui Anaaoui
 # ==========================
 
 # --------------------------
 # Project structure
 # --------------------------
-PROJECT_ROOT <- getwd()
+PROJECT_ROOT <- normalizePath(file.path(dirname(sys.frame(1)$ofile), ".."))
 
 DATA_DIR <- file.path(PROJECT_ROOT, "data")
 OUTPUT_DIR <- file.path(PROJECT_ROOT, "output")
-COUNTS_FILES <- list.files(
-    path = "output/macs2",
-    pattern = "_common_counts\\.txt$",
-    full.names = TRUE
-)
-SAMPLE_METADATA_PATH <- "output/colData.rds"
-PLOTS_DIR <- file.path(OUTPUT_DIR, "plots")
 
+COUNTS_MATRIX_PATH <- file.path(OUTPUT_DIR, "counts_matrix.rds")
+SAMPLE_METADATA_PATH <- file.path(OUTPUT_DIR, "colData.rds")
+FEATURECOUNTS_DIR <- file.path(OUTPUT_DIR, "featurecounts")
+PLOTS_DIR <- file.path(PROJECT_ROOT, "Plots")
+TABLES_DIR <- file.path(OUTPUT_DIR, "tables")
+
+# --------------------------
+# Experimental design
+# --------------------------
 CONDITIONS <- c(
-  rep("M1_IN", 3),
-  rep("M1_IP", 3),
-  rep("M12_IN", 3),
-  rep("M12_IP", 3),
-  rep("WT_IN", 3),
-  rep("WT_IP", 3)
+  rep("Rpb4-S/T-A", 3),
+  rep("Rpb4-S/T-D", 3),
+  rep("WT", 6)
 )
 
-REFERENCE_CONDITION <- "IN"
-
-library(BSgenome.Scerevisiae.UCSC.sacCer3)
-library(TxDb.Scerevisiae.UCSC.sacCer3.sgdGene)
-
-REFERENCE_GENOME <- BSgenome.Scerevisiae.UCSC.sacCer3
-REFERENCE_TXDB <- TxDb.Scerevisiae.UCSC.sacCer3.sgdGene
+REFERENCE_CONDITION <- "WT"
 
 # --------------------------
 # DESeq2 parameters
@@ -48,12 +41,9 @@ MIN_COUNTS_FILTER <- 10
 GO_ONTOLOGY <- "BP" 
 PVAL_CUTOFF <- 0.05
 QVAL_CUTOFF <- 0.05
-PADJ_METHOD <- "BH"
 
 # --------------------------
 # Organism database
 # --------------------------
-organism <- "yeast"
 ORG_DB <- "org.Sc.sgd.db"
 GENE_ID_TYPE <- "ORF" 
-KEGG_ORGANISM <- "sce"
