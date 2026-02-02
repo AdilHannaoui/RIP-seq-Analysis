@@ -1,5 +1,5 @@
 # ==========================
-# RNA-seq Analysis Config
+# RIP-seq Analysis Config
 # Author: Adil Hannaoui Anaaoui
 # ==========================
 
