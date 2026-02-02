@@ -44,14 +44,14 @@ dds <- DESeq(dds)
 # --------------------------
 # Extract results for contrasts
 # --------------------------
-res_WT_vs_A <- results(dds, contrast = c("condition", "Rpb4-S/T-A", REFERENCE_CONDITION))
-res_WT_vs_D <- results(dds, contrast = c("condition", "Rpb4-S/T-D", REFERENCE_CONDITION))
+res_WT_vs_M1 <- results(dds, contrast = c("condition", "M1", REFERENCE_CONDITION))
+res_WT_vs_M12 <- results(dds, contrast = c("condition", "M12", REFERENCE_CONDITION))
 
 # --------------------------
 # Filter significant genes
 # --------------------------
-res_WT_vs_A_sig <- res_WT_vs_A[which(res_WT_vs_A$padj < PADJ_THRESHOLD), ]
-res_WT_vs_D_sig <- res_WT_vs_D[which(res_WT_vs_D$padj < PADJ_THRESHOLD), ]
+res_WT_vs_M1_sig <- res_WT_vs_M1[which(res_WT_vs_M1$padj < PADJ_THRESHOLD), ]
+res_WT_vs_M12_sig <- res_WT_vs_M12[which(res_WT_vs_M12$padj < PADJ_THRESHOLD), ]
 
 # --------------------------
 # Save results
@@ -59,10 +59,10 @@ res_WT_vs_D_sig <- res_WT_vs_D[which(res_WT_vs_D$padj < PADJ_THRESHOLD), ]
 dir.create(OUTPUT_DIR, showWarnings = FALSE, recursive = TRUE)
 
 saveRDS(dds, file = file.path(OUTPUT_DIR, "dds.rds"))
-saveRDS(res_WT_vs_A_sig, file = file.path(OUTPUT_DIR, "DESeq2_WT_vs_A_sig.rds"))
-saveRDS(res_WT_vs_D_sig, file = file.path(OUTPUT_DIR, "DESeq2_WT_vs_D_sig.rds"))
+saveRDS(res_WT_vs_A_sig, file = file.path(OUTPUT_DIR, "DESeq2_WT_vs_M1_sig.rds"))
+saveRDS(res_WT_vs_D_sig, file = file.path(OUTPUT_DIR, "DESeq2_WT_vs_M12_sig.rds"))
 
-write.csv(as.data.frame(res_WT_vs_A_sig), file = file.path(OUTPUT_DIR, "DESeq2_WT_vs_A_sig.csv"))
-write.csv(as.data.frame(res_WT_vs_D_sig), file = file.path(OUTPUT_DIR, "DESeq2_WT_vs_D_sig.csv"))
+write.csv(as.data.frame(res_WT_vs_M1_sig), file = file.path(OUTPUT_DIR, "DESeq2_WT_vs_M1_sig.csv"))
+write.csv(as.data.frame(res_WT_vs_M12_sig), file = file.path(OUTPUT_DIR, "DESeq2_WT_vs_M12_sig.csv"))
 
 cat("DESeq2 analysis completed. Significant results saved in:", OUTPUT_DIR, "\n")
