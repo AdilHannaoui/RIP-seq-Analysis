@@ -41,6 +41,7 @@ dependencies:
 
   # R packages (CRAN)
   - r-pheatmap
+  - r-readr
   - r-upsetr
   - r-ggvenndiagram
   - r-ggplot2
