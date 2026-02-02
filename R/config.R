@@ -21,12 +21,15 @@ TABLES_DIR <- file.path(OUTPUT_DIR, "tables")
 # Experimental design
 # --------------------------
 CONDITIONS <- c(
-  rep("Rpb4-S/T-A", 3),
-  rep("Rpb4-S/T-D", 3),
-  rep("WT", 6)
+  rep("M1_IN", 3),
+  rep("M1_IP", 3),
+  rep("M12_IN", 3),
+  rep("M12_IP", 3),
+  rep("WT_IN", 3),
+  rep("WT_IP", 3)
 )
 
-REFERENCE_CONDITION <- "WT"
+REFERENCE_CONDITION <- "IN"
 
 # --------------------------
 # DESeq2 parameters
