@@ -1,148 +1,117 @@
-#!/usr/bin/env bash
-set -euo pipefail
-
 # ==========================
-# RIP-seq Peak Intersection Module (parallel)
+# RIP-seq DESeq2 analysis
 # Author: Adil Hannaoui Anaaoui
 # ==========================
 
-source "$(dirname "$0")/config.sh"
+# --------------------------
+# Load configuration
+# --------------------------
+source("R/config.R")
 
-mkdir -p "$OUTPUT_DIR/macs2"
-mkdir -p "$OUTPUT_DIR/logs"
+library(DESeq2)
+library(dplyr)
 
-cd "$WORKDIR"
+# --------------------------
+# Load data
+# --------------------------
+COUNTS_FILES <- list.files(
+  path = "output/macs2",
+  pattern = "_common_counts\\.txt$",
+  full.names = TRUE
+)
 
-#############################################
-# Function to process a single sample
-#############################################
-process_sample() {
-    BASENAME="$1"
+count_list <- lapply(COUNTS_FILES, function(f) {
+  df <- read.table(f, header = TRUE, sep = "\t", stringsAsFactors = FALSE)
+  sample_name <- sub("_common_counts\\.txt$", "", basename(f))  # M1, M12, WT
+  colnames(df)[9:14] <- paste0(sample_name, "_", colnames(df)[9:14])
+  df
+})
 
-    echo ">>> Processing sample: $BASENAME"
+# Merge all count tables by genomic annotation columns
+counts_merged <- Reduce(function(x, y) merge(
+  x, y,
+  by = c("chrom","start","end","name","score","strand","Gene_id","Biotype"),
+  all = TRUE
+), count_list)
 
-    # Collect narrowPeak files
-    NARROWPEAK_FILES=()
-    for NP in "$OUTPUT_DIR/macs2/${BASENAME}"_rep*_peaks.narrowPeak; do
-        [[ -e "$NP" ]] || continue
-        NARROWPEAK_FILES+=("$NP")
-    done
+# --------------------------
+# Collapse peaks by gene (SUM)
+# --------------------------
+count_data <- counts_merged %>%
+  select(-(chrom:Biotype)) %>%
+  mutate(Gene_id = counts_merged$Gene_id) %>%
+  group_by(Gene_id) %>%
+  summarise(across(everything(), sum, na.rm = TRUE))
 
-    NUM_REPS=${#NARROWPEAK_FILES[@]}
+counts_matrix <- as.data.frame(count_data)
+rownames(counts_matrix) <- counts_matrix$Gene_id
+counts_matrix$Gene_id <- NULL
 
-    if [[ $NUM_REPS -lt 2 ]]; then
-        echo "Not enough replicates for $BASENAME"
-        return
-    fi
+# --------------------------
+# Build colData automatically
+# --------------------------
+sample_names <- colnames(counts_matrix)
 
-    echo "Found $NUM_REPS replicates for $BASENAME"
+sample_group <- sub("_.*", "", sample_names)                 # M1, M12, WT
+condition    <- ifelse(grepl("_IP", sample_names), "IP", "IN")
 
-    RAW="$OUTPUT_DIR/macs2/${BASENAME}_common_raw.bed"
-    ANNOT="$OUTPUT_DIR/macs2/${BASENAME}_common_annotated.bed"
-    COUNTS_TMP="$OUTPUT_DIR/macs2/${BASENAME}_common_counts.tmp"
-    COUNTS_OUT="$OUTPUT_DIR/macs2/${BASENAME}_common_counts.txt"
-    LOGFILE="$OUTPUT_DIR/logs/${BASENAME}_intersection.log"
+colData <- data.frame(
+  row.names     = sample_names,
+  sample_group  = factor(sample_group),
+  condition     = factor(condition, levels = c("IN", "IP"))
+)
 
-    {
-        #############################################
-        # 3. CHAIN INTERSECT (rep1 ∩ rep2 ∩ rep3…)
-        #############################################
+colData$sample_group <- factor(colData$sample_group, levels = c("M1", "M12", "WT"))
+colData$group_condition <- factor(paste0(colData$sample_group, "_", colData$condition))
 
-        # Start with the first replicate
-        cp "${NARROWPEAK_FILES[0]}" "$RAW"
 
-        # Intersect sequentially with the rest
-        for ((i=1; i<NUM_REPS; i++)); do
-            bedtools intersect -a "$RAW" -b "${NARROWPEAK_FILES[$i]}" -wa -u > "${RAW}.tmp"
-            mv "${RAW}.tmp" "$RAW"
-        done
+# --------------------------
+# Create DESeqDataSet
+# --------------------------
+dds <- DESeqDataSetFromMatrix(
+  countData = counts_matrix,
+  colData   = colData,
+  design = ~ group_condition
+)
 
-        # If RAW is empty → no common peaks
-        if [[ ! -s "$RAW" ]]; then
-            echo "No common peaks for $BASENAME"
-            rm -f "$RAW"
-            return
-        fi
+# --------------------------
+# Filter low-count genes
+# --------------------------
+dds <- dds[rowSums(counts(dds)) > MIN_COUNTS_FILTER, ]
 
-        #############################################
-        # 4. Annotation
-        #############################################
-        bedtools intersect -a "$RAW" -b "$GTF_FILE" -wa -wb |
-        awk -F'\t' '
-        {
-            gene_id="NA"; biotype="NA"
-            if (match($0, /gene_id "([^"]+)"/, m)) gene_id=m[1]
-            if (match($0, /gene_biotype "([^"]+)"/, b)) biotype=b[1]
-            print $1, $2, $3, ".", ".", ".", gene_id, biotype
-        }' OFS="\t" | sort -u > "$ANNOT"
+# --------------------------
+# Run DESeq2
+# --------------------------
+dds <- DESeq(dds)
 
-        rm "$RAW"
+# --------------------------
+# Extract results: IP vs IN per sample
+# --------------------------
+res_M1  <- results(dds, contrast = c("group_condition", "M1_IP",  "M1_IN"))
+res_WT  <- results(dds, contrast = c("group_condition", "WT_IP",  "WT_IN"))
+res_M12 <- results(dds, contrast = c("group_condition", "M12_IP", "M12_IN"))
 
-        #############################################
-        # 5. Header
-        #############################################
-        HEADER="chrom\tstart\tend\tname\tscore\tstrand\tGene_id\tBiotype"
-        for REP in $(seq 1 "$NUM_REPS"); do
-            HEADER+="\tIP${REP}\tIN${REP}"
-        done
+res_M1_sig  <- res_M1[which(res_M1$padj  < PADJ_THRESHOLD), ]
+res_M12_sig <- res_M12[which(res_M12$padj < PADJ_THRESHOLD), ]
+res_WT_sig  <- res_WT[which(res_WT$padj  < PADJ_THRESHOLD), ]
 
-        #############################################
-        # 6. Collect BAMs
-        #############################################
-        BAM_FILES=()
-        for REP in $(seq 1 "$NUM_REPS"); do
-            BAM_FILES+=("$OUTPUT_DIR/bowtie2/${BASENAME}_IP${REP}_trimmed.bam")
-            BAM_FILES+=("$OUTPUT_DIR/bowtie2/${BASENAME}_IN${REP}_trimmed.bam")
-        done
+# --------------------------
+# Save results
+# --------------------------
+dir.create(OUTPUT_DIR, showWarnings = FALSE, recursive = TRUE)
 
-        #############################################
-        # 7. multicov
-        #############################################
-        bedtools multicov -bams "${BAM_FILES[@]}" \
-            -bed "$ANNOT" \
-            > "$COUNTS_TMP"
+# Core objects for downstream modules
+saveRDS(dds,           file = file.path(OUTPUT_DIR, "dds.rds"))
+saveRDS(colData,       file = file.path(OUTPUT_DIR, "colData.rds"))
 
-        #############################################
-        # 8. Combine header + counts
-        #############################################
-        {
-            echo -e "$HEADER"
-            cat "$COUNTS_TMP"
-        } > "$COUNTS_OUT"
+# IP vs IN per sample
+saveRDS(res_M1_sig,  file = file.path(OUTPUT_DIR, "DESeq2_res_M1_sig.rds"))
+saveRDS(res_M12_sig, file = file.path(OUTPUT_DIR, "DESeq2_res_M12_sig.rds"))
+saveRDS(res_WT_sig,  file = file.path(OUTPUT_DIR, "DESeq2_res_WT_sig.rds"))
 
-        rm "$COUNTS_TMP"
+write.csv(as.data.frame(res_M1_sig),  file = file.path(OUTPUT_DIR, "DESeq2_res_M1_sig.csv"))
+write.csv(as.data.frame(res_M12_sig), file = file.path(OUTPUT_DIR, "DESeq2_res_M12_sig.csv"))
+write.csv(as.data.frame(res_WT_sig),  file = file.path(OUTPUT_DIR, "DESeq2_res_WT_sig.csv"))
 
-        echo ">>> Finished sample: $BASENAME"
 
-    } > "$LOGFILE" 2>&1
-}
-
-export -f process_sample
-export OUTPUT_DIR GTF_FILE
-
-#############################################
-# Detect all samples (rep1 only)
-#############################################
-SAMPLES=()
-
-for FILE in "$OUTPUT_DIR/macs2"/*_rep1_peaks.narrowPeak; do
-    [[ -e "$FILE" ]] || continue
-    BASENAME=$(basename "$FILE" | sed 's/_rep1_peaks.narrowPeak//')
-    SAMPLES+=("$BASENAME")
-done
-
-if [[ ${#SAMPLES[@]} -eq 0 ]]; then
-    echo "No samples found for intersection."
-    exit 1
-fi
-
-echo "Found ${#SAMPLES[@]} samples."
-
-#############################################
-# Run in parallel
-#############################################
-parallel -j "$THREADS" process_sample ::: "${SAMPLES[@]}"
-
-echo "All intersection analyses completed."
-echo "Results saved in: $OUTPUT_DIR/macs2"
-echo "Logs saved in: $OUTPUT_DIR/logs"
+cat("DESeq2 analysis completed. Significant results saved in:", OUTPUT_DIR, "\n")
