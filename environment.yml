@@ -6,9 +6,13 @@ channels:
 
 dependencies:
   - python=3.10
+  - pybigwig
 
   # Core system
   - r-base
+  - r-dplyr       
+  - r-tidyr      
+  - r-purrr      
 
   # Bioinformatics tools
   - fastqc=0.12.1
@@ -17,14 +21,9 @@ dependencies:
   - subread=2.0.6
   - samtools=1.20
   - bedtools=2.31.1
+  - deeptools
   - macs3
-
-  # MEME Suite
-  - meme
-
-  # IGV
-  - igv
-  - igvtools
+  - ucsc-bedgraphtobigwig 
 
   # Bioconductor
   - bioconductor-deseq2
@@ -41,12 +40,12 @@ dependencies:
 
   # R packages (CRAN)
   - r-pheatmap
-  - r-readr
   - r-upsetr
-  - r-ggvenndiagram
+  - r-readr
   - r-ggplot2
   - r-ggrepel
 
   # Optional utilities
   - pigz
   - parallel
+
