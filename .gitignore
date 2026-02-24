@@ -1,0 +1,45 @@
+# ===== Outputs and results =====
+Plots/*
+!Plots/.gitkeep
+data/*.rds
+data/*.csv
+data/*.txt
+logs/*.log
+
+# ===== Files =====
+*.fastq
+*.fastq.gz
+*.bam
+*.bam.bai
+*.sam
+
+# ===== Reference genomes =====
+reference/*.fa
+reference/*.fasta
+reference/*.gtf
+reference/*.gff
+*.ht2
+*.bt2
+
+# ===== Conda/Python =====
+__pycache__/
+*.py[cod]
+.conda/
+.mamba/
+
+# ===== R =====
+.Rhistory
+.RData
+.Rproj.user
+*.Rproj
+
+# ===== System =====
+.DS_Store
+Thumbs.db
+*~
+*.swp
+
+# ===== Temporal =====
+tmp/
+temp/
+*.tmp
