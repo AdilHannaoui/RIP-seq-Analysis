@@ -24,19 +24,30 @@ DDS_FC <- file.path(DESEQ2_FC_DIR, "dds.rds")
 FEATURECOUNTS_DIR <- file.path(OUTPUT_DIR, "featurecounts")
 PLOTS_DIR <- file.path(OUTPUT_DIR, "Plots")
 
-# --------------------------
-# Experimental design
-# --------------------------
-CONDITIONS <- c(
-  rep("M1_IN", 3),
-  rep("M1_IP", 3),
-  rep("M12_IN", 3),
-  rep("M12_IP", 3),
-  rep("WT_IN", 3),
-  rep("WT_IP", 3)
-)
+# ============================================================
+# DATASET SELECTION
+# ============================================================
+DATASET <- "real"
 
-REFERENCE_CONDITION <- "IN"
+# Test data:
+if (DATASET == "test") {
+  CONDITIONS <- c(
+    rep("M1_IN", 3),
+    rep("M1_IP", 3),
+    rep("M12_IN", 3),
+    rep("M12_IP", 3),
+    rep("WT_IN", 3),
+    rep("WT_IP", 3)
+  )
+} else {
+  CONDITIONS <- c(
+    rep("M1_IN", 3),
+    rep("M1_IP", 3),
+    rep("M12_IN", 3),
+    rep("M12_IP", 3),
+    rep("WT_IN", 3),
+    rep("WT_IP", 3)
+}
 
 # --------------------------
 # DESeq2 parameters
@@ -57,3 +68,4 @@ QVAL_CUTOFF <- 0.05
 # --------------------------
 ORG_DB <- "org.Sc.sgd.db"
 GENE_ID_TYPE <- "ORF" 
+
