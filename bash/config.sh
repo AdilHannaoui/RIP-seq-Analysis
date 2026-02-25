@@ -8,10 +8,10 @@
 # Project directories
 # ----------------------
 WORKDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-FASTQ_DIR="$WORKDIR/data"
-OUTPUT_DIR="$WORKDIR/output"
+FASTQ_DIR="$WORKDIR/data/real"
+OUTPUT_DIR="$WORKDIR/output/real"
 BAM_DIR="$OUTPUT_DIR/bowtie2"
-PLOTS_DIR="$OUTPUT_DIR/Plots"
+PLOTS_DIR="$OUTPUT_DIR/Plots/real"
 
 # ----------------------
 # Computational resources
