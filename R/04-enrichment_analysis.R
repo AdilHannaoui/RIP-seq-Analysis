@@ -123,7 +123,7 @@ run_enrichment <- function(cond) {
     enrichGO(
       gene          = genes,
       universe      = universe,
-      OrgDb         = org.Sc.sgd.db,
+      OrgDb         = ORG_DB,
       keyType       = "ORF",
       ont           = GO_ONTOLOGY,
       pAdjustMethod = "BH",
@@ -159,5 +159,6 @@ run_enrichment <- function(cond) {
 # Run enrichment for all conditions (LÓGICA ORIGINAL)
 # --------------------------
 map(base_conditions, run_enrichment)
+
 
 message("\n=== GO enrichment completed ===")
