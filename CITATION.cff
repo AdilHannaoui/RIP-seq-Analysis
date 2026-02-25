@@ -1,0 +1,31 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "RIP-seq Analysis Pipeline for Rpb4 Mutants in Saccharomyces cerevisiae"
+version: 1.0.0
+date-released: 2025-01-21
+authors:
+  - family-names: "Hannaoui Anaaoui"
+    given-names: "Adil"
+abstract: >-
+  A complete RIP-seq analysis pipeline for studying RNA-protein interactions
+  mediated by the Rpb4 subunit of RNA polymerase II in Saccharomyces cerevisiae.
+  The pipeline implements a triple analytical approach — featureCounts-based quantification,
+  sliding window analysis, and peak calling — enabling robust identification of
+  Rpb4-associated transcripts at multiple levels of resolution. The workflow covers
+  end-to-end processing including quality control, read alignment, and all three
+  downstream enrichment strategies applied in parallel.Data generated from three
+  biological replicates of Rpb4 immunoprecipitation at the Institute of Functional
+  Biology and Genomics (IBFG).
+keywords:
+  - RIP-seq
+  - Saccharomyces cerevisiae
+  - Rpb4
+  - RNA polymerase II
+  - differential expression
+  - DESeq2
+  - bioinformatics
+  - genomics
+license: MIT
+repository-code: "https://github.com/AdilHannaoui/RIP-seq-Analysis"
+url: "https://github.com/AdilHannaoui/RIP-seq-Analysis"
