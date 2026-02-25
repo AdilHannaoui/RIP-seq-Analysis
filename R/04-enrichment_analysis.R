@@ -124,7 +124,7 @@ run_enrichment <- function(cond) {
       gene          = genes,
       universe      = universe,
       OrgDb         = ORG_DB,
-      keyType       = "ORF",
+      keyType       = GENE_ID_TYPE,
       ont           = GO_ONTOLOGY,
       pAdjustMethod = "BH",
       pvalueCutoff  = PVAL_CUTOFF,
@@ -162,3 +162,4 @@ map(base_conditions, run_enrichment)
 
 
 message("\n=== GO enrichment completed ===")
+
