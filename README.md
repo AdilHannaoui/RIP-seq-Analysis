@@ -321,8 +321,9 @@ The input metagene profiles are broadly similar across conditions, confirming th
 
 
 
-### Conclusions
-
+## Conclusions
+<p align="justify">
+  
 This RIP-seq study reveals that the phosphorylation status of Rpb4 is a key determinant of its RNA-binding specificity, with distinct phosphorylation states defining fundamentally different RNA-association landscapes.
 
 Under physiological conditions (**WT**), Rpb4 associates with a focused and functionally coherent set of transcripts, predominantly enriched in translation-related GO terms. The strong TSS-proximal signal in the IP fraction indicates that this association occurs co-transcriptionally, consistent with a model in which phosphorylated Rpb4 selectively captures a defined subset of nascent mRNAs at the moment of transcription initiation.
@@ -333,6 +334,7 @@ The most striking phenotype is observed in **M12**, where the ablation of a sing
 
 Taken together, these results support a model in which the five phosphorylatable residues of Rpb4 are not functionally equivalent or additive, but instead form a **hierarchical regulatory code**. Individual residues contribute distinct layers of specificity to RNA target selection, and their combinatorial phosphorylation state fine-tunes the composition of the Rpb4-bound RNA pool across different functional categories. The single residue mutated in M12 appears to occupy a dominant position in this hierarchy, acting as a specificity switch that directs Rpb4 toward translation-coupled and transport-related transcripts under normal conditions.
 
+</p>
 
 
 ## Limitations
