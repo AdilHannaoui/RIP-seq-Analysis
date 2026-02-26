@@ -301,3 +301,33 @@ Gene Ontology enrichment analysis (Biological Process) was performed on transcri
 **In M12 (single residue phospho-ablation)**, the GO profile shares some terms with M1 (translation, ribosome biogenesis, ribonucleoprotein complex biogenesis) but also includes unique categories such as **nucleocytoplasmic transport, nuclear export, ribosomal subunit export from nucleus, and regulation of translational initiation**. This points to a specific rewiring of Rpb4-RNA interactions toward transcripts involved in the spatial coordination of gene expression — from the nucleus to the cytoplasm — rather than a simple global expansion of binding. The presence of transport and localization terms exclusively in M12 suggests that this single residue normally suppresses or fine-tunes Rpb4 association with this particular class of transcripts.
 
 **Taken together**, these GO results paint a coherent picture: wild-type Rpb4 binds a focused set of translation-related mRNAs in a phosphorylation-dependent manner, complete phospho-ablation (M1) leads to a broad and relatively non-specific expansion of RNA binding across biosynthetic processes, while single-residue ablation (M12) causes a more targeted rewiring toward RNA transport and translational regulation. This reinforces the notion of a **functional hierarchy among the phosphorylatable residues of Rpb4**, where individual sites contribute distinct specificity layers to its RNA-binding activity.
+
+
+### TSS metagenome
+
+<p float="left">
+  <img src="Plots/real/TSS_metagene_IN.png" width="45%" />
+  <img src="Plots/real/TSS_metagene_IP.png" width="45%" />
+</p>
+
+TSS metagene analysis reveals a consistent signal architecture across all conditions, characterized by a nucleosome-depleted region immediately upstream of the TSS followed by a sharp signal increase in the gene body, reflecting the expected chromatin landscape around transcription start sites. However, the amplitude of this pattern differs markedly between conditions in the IP fractions.
+
+**WT and M12 display strong and comparable TSS-proximal enrichment** in the immunoprecipitated fraction, with high normalized signal downstream of the TSS, indicating efficient co-transcriptional association of Rpb4 with nascent RNA in both conditions. In contrast, **M1 shows a markedly reduced signal** throughout the metagene profile, suggesting that complete phospho-ablation of all five residues severely impairs the ability of Rpb4 to associate with nascent transcripts at or near the site of transcription initiation.
+
+The input metagene profiles are broadly similar across conditions, confirming that the observed differences in the IP fractions are not driven by changes in transcriptional activity or chromatin accessibility, but rather reflect genuine differences in Rpb4-RNA association. The fact that **M12 retains WT-like TSS enrichment** despite carrying a phospho-ablating mutation further supports the model in which this single residue does not govern co-transcriptional RNA binding per se, but instead reshapes the downstream composition and functional identity of the Rpb4-bound RNA pool, as evidenced by the GO and UpSet analyses.
+
+
+
+### Conclusions
+
+This RIP-seq study reveals that the phosphorylation status of Rpb4 is a key determinant of its RNA-binding specificity, with distinct phosphorylation states defining fundamentally different RNA-association landscapes.
+
+Under physiological conditions (**WT**), Rpb4 associates with a focused and functionally coherent set of transcripts, predominantly enriched in translation-related GO terms. The strong TSS-proximal signal in the IP fraction indicates that this association occurs co-transcriptionally, consistent with a model in which phosphorylated Rpb4 selectively captures a defined subset of nascent mRNAs at the moment of transcription initiation.
+
+Complete phospho-ablation (**M1**) produces a paradoxically mild transcriptomic impact relative to what might be expected from losing all five phosphorylatable residues. While the GO enrichment broadens considerably — spanning ribosome biogenesis, rRNA processing, and protein-RNA complex assembly — the TSS metagene signal drops sharply, suggesting that M1 loses co-transcriptional binding efficiency but gains association with a larger and less selective pool of cytoplasmic or post-transcriptional RNA targets. PCA and UpSet analyses confirm that M1 diverges from WT, but less dramatically than M12.
+
+The most striking phenotype is observed in **M12**, where the ablation of a single residue — one of the five mutated in M1 — drives the largest condition-specific transcript set (40 unique transcripts), the strongest separation in PCA space both in IP and input fractions, and a unique GO signature enriched in nucleocytoplasmic transport, ribosomal subunit export, and regulation of translational initiation. Crucially, M12 retains WT-like TSS enrichment in the IP metagene, indicating that co-transcriptional RNA binding is preserved, but the identity of the captured transcripts is profoundly altered. This dissociation between binding efficiency and binding specificity points to this residue as a **master regulator of Rpb4 RNA-binding selectivity** rather than a simple modulator of binding affinity.
+
+Taken together, these results support a model in which the five phosphorylatable residues of Rpb4 are not functionally equivalent or additive, but instead form a **hierarchical regulatory code**. Individual residues contribute distinct layers of specificity to RNA target selection, and their combinatorial phosphorylation state fine-tunes the composition of the Rpb4-bound RNA pool across different functional categories. The single residue mutated in M12 appears to occupy a dominant position in this hierarchy, acting as a specificity switch that directs Rpb4 toward translation-coupled and transport-related transcripts under normal conditions.
+
+
