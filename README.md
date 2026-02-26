@@ -13,6 +13,8 @@ The analysis covers:
 * Downstream statistical analysis and visualization
 <br>
 
+![RIP-seq pipeline](Plots/workflow.svg)
+
 <br>
 The objective of this project is to characterize RNA binding sites associated with phospho-null mutations in the Rpb4 subunit.
 
