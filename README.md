@@ -256,3 +256,16 @@ Differential expression was assessed using the DESeq2 package. This allows us to
 **Taken together**, these results indicate a functional hierarchy among the five phosphorylatable residues of Rpb4, where the residue mutated in M12 exerts a disproportionate influence on both RNA association and global transcriptional output. The paradoxical finding that a partial phospho-ablation (M12) produces stronger transcriptomic changes than a complete one (M1) may reflect compensatory mechanisms or epistatic interactions among the five residues.
 
 </p>
+
+
+### Integrated heatmap
+
+<p float="left">
+  <img src="Plots/real/Integrated_heatmap.png" width="70%" 
+</p>
+
+<p align="justify">
+  
+To illustrate the consistency of expression changes across conditions, a heatmap of log2 fold changes was generated for genes showing significant differential association in all three conditions. The clustering pattern reveals that **M12 and WT group together**, displaying more similar fold change profiles, while **M1 stands apart** with an opposing enrichment pattern in several transcripts. This is consistent with the PCA results and further supports the idea that complete phospho-ablation of all five residues (M1) produces the most divergent RNA-binding profile. Notably, individual transcripts show condition-specific directionality — some are enriched exclusively in M1 while depleted in WT and M12, and vice versa — highlighting that Rpb4 phosphorylation status does not simply scale RNA association up or down globally, but rather **reshapes the composition of the bound RNA pool in a residue-dependent manner.**
+
+</p>
