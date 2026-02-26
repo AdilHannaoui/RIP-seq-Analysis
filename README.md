@@ -267,5 +267,17 @@ Differential expression was assessed using the DESeq2 package. This allows us to
 
 
 <p align="justify">
+  
 To illustrate the consistency of expression changes across conditions, a heatmap of log2 fold changes was generated for genes showing significant differential association in all three conditions. The clustering pattern reveals that **M12 and WT group together**, displaying more similar fold change profiles, while **M1 stands apart** with an opposing enrichment pattern in several transcripts. This is consistent with the PCA results and further supports the idea that complete phospho-ablation of all five residues (M1) produces the most divergent RNA-binding profile. Notably, individual transcripts show condition-specific directionality — some are enriched exclusively in M1 while depleted in WT and M12, and vice versa — highlighting that Rpb4 phosphorylation status does not simply scale RNA association up or down globally, but rather **reshapes the composition of the bound RNA pool in a residue-dependent manner.**
+
 </p>
+
+
+### Integrated UpSet
+
+<p float="left">
+  <img src="Plots/real/Integrated_UpSet.png" width="70%" 
+</p>
+
+The UpSet plot reveals the overlap structure of transcripts significantly enriched in the Rpb4 immunoprecipitate across conditions. **M12 shows the largest number of exclusively bound transcripts (40)**, followed by M1 (28) and WT (19), indicating that phospho-ablation — whether partial or complete — expands the RNA-binding repertoire of Rpb4 compared to the wild-type. Notably, the overlap between conditions is limited: only **3 transcripts are shared across all three conditions**, suggesting that the Rpb4-associated RNA pool is highly sensitive to the phosphorylation status of the protein.
+The largely non-overlapping nature of the enriched transcript sets further supports the idea that each phosphorylation state defines a **distinct RNA-binding landscape**. In particular, M12 drives the largest condition-specific set despite carrying only a single phospho-ablating mutation, reinforcing the conclusion from PCA analysis that this residue plays a disproportionate role in determining which RNAs associate with Rpb4. The small shared core (3 transcripts common to all conditions) may represent transcripts whose association with Rpb4 is phosphorylation-independent, potentially reflecting constitutive interactions with the RNA polymerase II complex.
