@@ -243,7 +243,7 @@ Differential expression was assessed using the DESeq2 package. This allows us to
 ## Results
 
 ### PCA
-<p float="left">
+<p float="center">
   <img src="Plots/real/PCA_IN_only.jpg" width="45%" />
   <img src="Plots/real/PCA_IP_only.png" width="45%" />
 </p>
@@ -262,7 +262,7 @@ Differential expression was assessed using the DESeq2 package. This allows us to
 
 ### Integrated heatmap
 
-<p float="left">
+<p float="center">
   <img src="Plots/real/Integrated_heatmap.png" width="70%" 
 </p>
 
