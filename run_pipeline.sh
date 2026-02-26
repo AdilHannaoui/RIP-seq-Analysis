@@ -110,10 +110,10 @@ run_step "3" "fastqc" "bash/01-fastqc.sh" || exit 1
 run_step "4" "trimming" "bash/02-trimming.sh" || exit 1
 run_step "5" "alignment" "bash/03-alignment_bowtie2.sh" || exit 1
 run_step "6" "featurecounts" "bash/04-featurecounts.sh" || exit 1
-run_step "7" "featurecounts" "bash/05-peak_calling_exploratory.sh" || exit 1
-run_step "8" "featurecounts" "bash/06-peak_intersection_exploratory.sh" || exit 1
-run_step "9" "featurecounts" "bash/07-window_analysis_exploratory.sh" || exit 1
-run_step "10" "featurecounts" "bash/08-tss_metagene.sh" || exit 1
+run_step "7" "peak calling" "bash/05-peak_calling_exploratory.sh" || exit 1
+run_step "8" "peak intersection" "bash/06-peak_intersection_exploratory.sh" || exit 1
+run_step "9" "window analysis" "bash/07-window_analysis_exploratory.sh" || exit 1
+run_step "10" "tss-metagene" "bash/08-tss_metagene.sh" || exit 1
 
 # 11-16. R steps
 run_r_step "11" "load_counts" "R/01-load_counts.R" || exit 1
