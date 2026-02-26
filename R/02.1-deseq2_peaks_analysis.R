@@ -40,8 +40,6 @@ message("  PADJ_THRESHOLD: ", PADJ_THRESHOLD)
 # --------------------------
 message("\n[1/7] Loading MACS3 common counts files...")
 
-MACS3_DIR <- "output/macs3"
-
 if (!dir.exists(MACS3_DIR)) {
   stop("ERROR: MACS3 directory not found at: ", MACS3_DIR)
 }
@@ -320,5 +318,6 @@ for (group in names(sig_results_list)) {
   n_sig <- nrow(sig_results_list[[group]])
   message("  ", group, ": ", n_sig, " genes")
 }
+
 
 message("\n=== DESeq2 analysis completed successfully ===")
