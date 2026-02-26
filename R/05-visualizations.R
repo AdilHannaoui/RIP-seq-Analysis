@@ -147,7 +147,7 @@ message("\n[3/4] === Integrated Heatmap ===")
 tsv_files <- read_integrated_tsvs(WINDOWS_DIR)
 message("Found ", length(tsv_files), " integrated TSV files")
 
-# Read and process TSVs (LÓGICA ORIGINAL)
+# Read and process TSVs
 df_list <- lapply(tsv_files, function(f) {
   cond <- sub("Integrated_(.*)_filtered\\.tsv", "\\1", basename(f))
   
@@ -279,4 +279,5 @@ message("PCA plots: 2 (IP, IN)")
 message("Heatmap genes: ", nrow(mat))
 message("UpSet conditions: ", length(gene_sets))
 message("Output directory: ", PLOTS_DIR)
+
 message("\n=== Visualization completed successfully ===")
