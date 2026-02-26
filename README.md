@@ -243,7 +243,7 @@ Differential expression was assessed using the DESeq2 package. This allows us to
 ## Results
 ### PCA
 <p float="left">
-  <img src="Plots/real/PCA_IN_only.png" width="45%" />
+  <img src="Plots/real/PCA_IN_only.jpg" width="45%" />
   <img src="Plots/real/PCA_IP_only.png" width="45%" />
 </p>
 
