@@ -306,8 +306,11 @@ Gene Ontology enrichment analysis (Biological Process) was performed on transcri
 ### TSS metagenome
 
 <p float="left">
-  <img src="Plots/real/TSS_metagene_IN.png" width="45%" />
-  <img src="Plots/real/TSS_metagene_IP.png" width="45%" />
+  <img src="Plots/real/TSS_metagene_IN.png" width="80%" />
+</p>
+
+<p float="left">
+  <img src="Plots/real/TSS_metagene_IN.png" width="80%" />
 </p>
 
 TSS metagene analysis reveals a consistent signal architecture across all conditions, characterized by a nucleosome-depleted region immediately upstream of the TSS followed by a sharp signal increase in the gene body, reflecting the expected chromatin landscape around transcription start sites. However, the amplitude of this pattern differs markedly between conditions in the IP fractions.
