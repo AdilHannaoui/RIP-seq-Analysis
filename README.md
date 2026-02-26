@@ -262,7 +262,7 @@ Differential expression was assessed using the DESeq2 package. This allows us to
 
 ### Integrated heatmap
 
-<p float="center">
+<p float="centre">
   <img src="Plots/real/Integrated_heatmap.png" width="70%" 
 </p>
 
