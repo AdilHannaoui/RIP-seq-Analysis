@@ -1,53 +1,140 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
-set -e
-set -o pipefail
+# ==========================
+# RIP-seq Master Pipeline
+# Author: Adil Hannaoui Anaaoui
+# ==========================
 
-mkdir -p logs
+PIPELINE_VERSION="v1.0.0"
+START_TIME=$(date +%s)
+LOG_DIR="logs"
+TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 
-SECONDS=0
-echo "=== Pipeline started successfully ===)"
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
 
-echo "[1/11] Activating Conda environment..."
-source ~/miniconda3/etc/profile.d/conda.sh
-conda activate ripseq-rpb4
+# ==========================
+# Functions
+# ==========================
+log_info() {
+    echo -e "${GREEN}[INFO]${NC} $1"
+}
 
-echo "[2/11] Loading configs..."
-CONFIG_R="R/config.R"
-CONFIG_bash="bash/config.sh"
+log_error() {
+    echo -e "${RED}[ERROR]${NC} $1" >&2
+}
 
-echo "[3/11] Running FastQC..."
-bash bash/01-fastqc.sh $CONFIG_bash > logs/fastqc.log 2>&1
+log_warn() {
+    echo -e "${YELLOW}[WARN]${NC} $1"
+}
 
-echo "[4/11] Running Trimmomatic..."
-bash bash/02-trimming.sh $CONFIG_bash > logs/trimming.log 2>&1
+run_step() {
+    local step_num=$1
+    local step_name=$2
+    local script=$3
+    local logfile="${LOG_DIR}/${step_num}-${step_name}_${TIMESTAMP}.log"
+    
+    log_info "[${step_num}/8] Running ${step_name}..."
+    
+    if bash "$script" > "$logfile" 2>&1; then
+        log_info "✓ ${step_name} completed successfully"
+        return 0
+    else
+        log_error "✗ ${step_name} failed. Check log: $logfile"
+        return 1
+    fi
+}
 
-echo "[5/11] Running Bowtie2..."
-bash bash/03-alignment_bowtie2.sh $CONFIG_bash > logs/alignment.log 2>&1
+run_r_step() {
+    local step_num=$1
+    local step_name=$2
+    local script=$3
+    local logfile="${LOG_DIR}/${step_num}-${step_name}_${TIMESTAMP}.log"
+    
+    log_info "[${step_num}/8] Running ${step_name}..."
+    
+    if Rscript "$script" > "$logfile" 2>&1; then
+        log_info "✓ ${step_name} completed successfully"
+        return 0
+    else
+        log_error "✗ ${step_name} failed. Check log: $logfile"
+        return 1
+    fi
+}
 
-echo "[6/11] Running FeatureCounts..."
-bash bash/04-featurecounts.sh $CONFIG_bash > logs/featurecounts.log 2>&1
+# ==========================
+# Main Pipeline
+# ==========================
+echo "=========================================="
+echo "  RIP-seq Analysis Pipeline ${PIPELINE_VERSION}"
+echo "  Started: $(date)"
+echo "=========================================="
 
-echo "[7/11] Running MACS3..."
-bash bash/05-peak_calling_exploratory.sh $CONFIG_bash > logs/macs3.log 2>&1
+# Create logs directory
+mkdir -p "$LOG_DIR"
 
-echo "[8/11] Running Peak Intersection..."
-bash bash/06-peak_intersection_exploratory.sh $CONFIG_bash > logs/intersection.log 2>&1
+# 1. Environment Activation
+log_info "[1/8] Activating Conda environment..."
+if ! source ~/miniconda3/etc/profile.d/conda.sh; then
+    log_error "Failed to source conda.sh"
+    exit 1
+fi
 
-echo "[9/11] Running Window Analysis..."
-bash bash/07-window_analysis_exploratory.sh $CONFIG_bash > logs/windows.log 2>&1
+if ! conda activate ripseq-rpb4; then
+    log_error "Failed to activate conda environment"
+    exit 1
+fi
 
-echo "[10/11] Running TSS metagene Analysis..."
-bash bash/08-tss_metagene.sh $CONFIG_bash > logs/tss_metagene.log 2>&1
+log_info "Environment activated: $(conda info --envs | grep '*' | awk '{print $1}')"
 
-echo "[11/11] Running R analysis..."
-Rscript R/01-load_counts.R $CONFIG_R > logs/load_counts.log 2>&1
-Rscript R/02-deseq2_analysis.R $CONFIG_R > logs/deseq2.log 2>&1
-Rscript R/02.1-deseq2_peaks_analysis.R $CONFIG_R > logs/deseq2_peaks.log 2>&1
-Rscript R/03-integrate_genes.R $CONFIG_R > logs/integration.log 2>&1
-Rscript R/04-enrichment_analysis.R $CONFIG_R > logs/enrichment.log 2>&1
-Rscript R/05-visualizations.R $CONFIG_R > logs/visualizations.log 2>&1
+# 2. Validate configuration files
+log_info "[2/8] Validating configuration files..."
+if [[ ! -f "bash/config.sh" ]]; then
+    log_error "bash/config.sh not found"
+    exit 1
+fi
 
-duration=$SECONDS
-echo "Total execution time: $((duration / 60)) minutes $((duration % 60)) seconds"
+if [[ ! -f "R/config.R" ]]; then
+    log_error "R/config.R not found"
+    exit 1
+fi
 
+log_info "Configuration files validated"
+
+# 3-6. Bash steps
+run_step "3" "fastqc" "bash/01-fastqc.sh" || exit 1
+run_step "4" "trimming" "bash/02-trimming.sh" || exit 1
+run_step "5" "alignment" "bash/03-alignment_bowtie2.sh" || exit 1
+run_step "6" "featurecounts" "bash/04-featurecounts.sh" || exit 1
+run_step "7" "featurecounts" "bash/05-peak_calling_exploratory.sh" || exit 1
+run_step "8" "featurecounts" "bash/06-peak_intersection_exploratory.sh" || exit 1
+run_step "9" "featurecounts" "bash/07-window_analysis_exploratory.sh" || exit 1
+run_step "10" "featurecounts" "bash/08-tss_metagene.sh" || exit 1
+
+# 11-16. R steps
+run_r_step "11" "load_counts" "R/01-load_counts.R" || exit 1
+run_r_step "12" "deseq2" "R/02-deseq2_analysis.R" || exit 1
+run_r_step "13" "deseq2" "R/02.1-deseq2_peaks_analysis.R" || exit 1
+run_r_step "14" "enrichment" "R/03-integrate_genes.R" || exit 1
+run_r_step "15" "enrichment" "R/04-enrichment_analysis.R" || exit 1
+run_r_step "16" "visualization" "R/05-visualizations.R" || exit 1
+
+# ==========================
+# Completion
+# ==========================
+END_TIME=$(date +%s)
+DURATION=$((END_TIME - START_TIME))
+
+echo ""
+echo "=========================================="
+echo "  ✓ Pipeline completed successfully!"
+echo "  Total time: $((DURATION / 60))m $((DURATION % 60))s"
+echo "  Finished: $(date)"
+echo "=========================================="
+echo ""
+log_info "Logs saved in: $LOG_DIR/"
+log_info "Results available in: Plots/ and data/" seconds"
