@@ -67,7 +67,7 @@ chmod +x download_genome.sh
 bash download_genome.sh
 ```
 
-4. **Build HISAT2 index**
+4. **Build Bowtie2 index**
 ```bash
 conda activate ripseq-rpb4
 bowtie2-build reference/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa reference/sc_bt2_index
@@ -135,7 +135,7 @@ The selected inputs can be found in the configuration files used for each of the
 ```text
 ├── bash/01-fastqc.sh
 ├── bash/02-trimming.sh
-├── bash/03-alignment_hisat2.sh
+├── bash/03-alignment_bowtie2.sh
 ├── bash/04-featurecounts.sh
 ├── R/01-load_counts.R
 ├── R/02-deseq2_analysis.R
@@ -217,7 +217,7 @@ The purpose of these constructs is to determine the functional role of these res
 </p>
 
 ## Methods
-The pipeline includes preprocessing (FastQC v0.11.9, Trimmomatic v0.39), alignment (Bowtie2 v2.5.4), quantification (featureCounts v2.0), peak calling (macs3 v), and differential expression analysis (R v4.4.0).
+The pipeline includes preprocessing (FastQC v0.11.9, Trimmomatic v0.39), alignment (Bowtie2 v2.5.4), quantification (featureCounts v2.0), peak calling (macs3 v3.0.3), and differential expression analysis (R v4.4.0).
 
 ### FastQC and Trimmomatic
 <p align="justify">
@@ -232,7 +232,7 @@ Quality control of the FASTQ files was performed using FastQC, followed by a tri
 
 
 ### Bowtie2 Alignment
-Sequence alignment was performed using Bowtie2, a splice-aware aligner specifically designed for RIP-seq analysis. Since the libraries were prepared using the Illumina TruSeq Stranded protocol, the resulting reads originate from the reverse strand.
+Sequence alignment was performed using Bowtie2, an aligner specifically designed for RIP-seq analysis. Since the libraries were prepared using the Illumina TruSeq Stranded protocol, the resulting reads originate from the reverse strand.
 
 
 ### FeatureCounts
@@ -305,7 +305,7 @@ Gene Ontology enrichment analysis (Biological Process) was performed on transcri
 **Taken together**, these GO results paint a coherent picture: wild-type Rpb4 binds a focused set of translation-related mRNAs in a phosphorylation-dependent manner, complete phospho-ablation (M1) leads to a broad and relatively non-specific expansion of RNA binding across biosynthetic processes, while single-residue ablation (M12) causes a more targeted rewiring toward RNA transport and translational regulation. This reinforces the notion of a **functional hierarchy among the phosphorylatable residues of Rpb4**, where individual sites contribute distinct specificity layers to its RNA-binding activity.
 
 
-### TSS metagenome
+### TSS metagene
 
 <p float="left">
   <img src="Plots/real/TSS_metagene_IN.png" width="100%" />
