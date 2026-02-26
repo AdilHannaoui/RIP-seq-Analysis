@@ -241,6 +241,7 @@ Finally, the featureCounts tool was utilized to generate a gene count matrix for
 Differential expression was assessed using the DESeq2 package. This allows us to compare gene expression across the experimental conditions included in this study.
 
 ## Results
+
 ### PCA
 <p float="left">
   <img src="Plots/real/PCA_IN_only.jpg" width="45%" />
@@ -281,3 +282,22 @@ To illustrate the consistency of expression changes across conditions, a heatmap
 
 The UpSet plot reveals the overlap structure of transcripts significantly enriched in the Rpb4 immunoprecipitate across conditions. **M12 shows the largest number of exclusively bound transcripts (40)**, followed by M1 (28) and WT (19), indicating that phospho-ablation — whether partial or complete — expands the RNA-binding repertoire of Rpb4 compared to the wild-type. Notably, the overlap between conditions is limited: only **3 transcripts are shared across all three conditions**, suggesting that the Rpb4-associated RNA pool is highly sensitive to the phosphorylation status of the protein.
 The largely non-overlapping nature of the enriched transcript sets further supports the idea that each phosphorylation state defines a **distinct RNA-binding landscape**. In particular, M12 drives the largest condition-specific set despite carrying only a single phospho-ablating mutation, reinforcing the conclusion from PCA analysis that this residue plays a disproportionate role in determining which RNAs associate with Rpb4. The small shared core (3 transcripts common to all conditions) may represent transcripts whose association with Rpb4 is phosphorylation-independent, potentially reflecting constitutive interactions with the RNA polymerase II complex.
+
+
+### Enrichment Analysis
+
+<p float="left">
+  <img src="Plots/real/GO_BP_WT_dotplot.png" width="30%" />
+  <img src="Plots/real/GO_BP_M1_dotplot.png" width="30%" />
+  <img src="Plots/real/GO_BP_M12_dotplot.png" width="30%" />
+</p>
+
+Gene Ontology enrichment analysis (Biological Process) was performed on transcripts robustly enriched in each condition, defined by a consensus of three independent approaches (feature counts, TSS windows, and peak calling), ensuring high-confidence target identification.
+
+**In WT**, the enriched transcript set is notably sparse in GO terms, with only **translation** and **cytoplasmic translation** reaching significance. This suggests that under physiological phosphorylation conditions, Rpb4 associates preferentially and selectively with mRNAs encoding components of the translational machinery, consistent with previously described roles of Rpb4/7 in coupling transcription to translation.
+
+**In M1 (complete phospho-ablation)**, the enriched GO terms expand dramatically to cover a broad range of biosynthetic and gene expression processes, including **cellular biosynthetic process, macromolecule biosynthetic process, gene expression, ribosome biogenesis, rRNA processing, and protein-RNA complex assembly**. The high GeneRatios and strong significance values indicate a large-scale, non-selective association of Rpb4 with transcripts involved in the entire gene expression cascade. This may reflect a loss of binding specificity when all phosphorylatable residues are ablated, resulting in Rpb4 promiscuously associating with a broader and functionally less defined RNA pool.
+
+**In M12 (single residue phospho-ablation)**, the GO profile shares some terms with M1 (translation, ribosome biogenesis, ribonucleoprotein complex biogenesis) but also includes unique categories such as **nucleocytoplasmic transport, nuclear export, ribosomal subunit export from nucleus, and regulation of translational initiation**. This points to a specific rewiring of Rpb4-RNA interactions toward transcripts involved in the spatial coordination of gene expression — from the nucleus to the cytoplasm — rather than a simple global expansion of binding. The presence of transport and localization terms exclusively in M12 suggests that this single residue normally suppresses or fine-tunes Rpb4 association with this particular class of transcripts.
+
+**Taken together**, these GO results paint a coherent picture: wild-type Rpb4 binds a focused set of translation-related mRNAs in a phosphorylation-dependent manner, complete phospho-ablation (M1) leads to a broad and relatively non-specific expansion of RNA binding across biosynthetic processes, while single-residue ablation (M12) causes a more targeted rewiring toward RNA transport and translational regulation. This reinforces the notion of a **functional hierarchy among the phosphorylatable residues of Rpb4**, where individual sites contribute distinct specificity layers to its RNA-binding activity.
