@@ -250,6 +250,9 @@ Differential expression was assessed using the DESeq2 package. This allows us to
 <p align="justify">
   
 **PCA analysis of immunoprecipitated fractions (IP)** reveals that PC1 (43% of variance) separates M12 from both WT and M1, which cluster together on the opposite side of the axis. This suggests that the phospho-ablation of this single residue drives a more pronounced shift in the Rpb4-associated RNA profile than the complete loss of phosphorylation at all five sites, pointing to a dominant and non-redundant role of this specific residue in RNA binding selectivity.
+
 **PCA of input fractions (IN)** shows a similar trend, with M12 clearly separated from WT and M1 along PC1 (57% of variance), and notably high intra-group consistency. This indicates that ablation of this single residue has a broader impact on the global transcriptome than the combined loss of all five phosphorylatable residues, suggesting it may play a unique regulatory role beyond its contribution to the phosphorylation cluster.
+
 **Taken together**, these results indicate a functional hierarchy among the five phosphorylatable residues of Rpb4, where the residue mutated in M12 exerts a disproportionate influence on both RNA association and global transcriptional output. The paradoxical finding that a partial phospho-ablation (M12) produces stronger transcriptomic changes than a complete one (M1) may reflect compensatory mechanisms or epistatic interactions among the five residues.
+
 </p>
