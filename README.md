@@ -334,3 +334,20 @@ The most striking phenotype is observed in **M12**, where the ablation of a sing
 Taken together, these results support a model in which the five phosphorylatable residues of Rpb4 are not functionally equivalent or additive, but instead form a **hierarchical regulatory code**. Individual residues contribute distinct layers of specificity to RNA target selection, and their combinatorial phosphorylation state fine-tunes the composition of the Rpb4-bound RNA pool across different functional categories. The single residue mutated in M12 appears to occupy a dominant position in this hierarchy, acting as a specificity switch that directs Rpb4 toward translation-coupled and transport-related transcripts under normal conditions.
 
 
+
+## Limitations
+
+* The raw RIP-seq sequence files used in this project cannot be uploaded to the repository, which may limit full reproducibility of the analyses. However, the count matrices, ```dds``` objects, and metadata are included in the ```output/real/``` folder, enabling complete reproducibility of all statistical analysis steps.
+
+* Example/sample data are also provided to verify that the master pipeline runs correctly.
+
+* Some input versions used in the analyses are outdated, which may give the impression of slightly outdated results.
+
+
+
+## Changelog
+
+### v1.0.0 — 2026-02-26
+- Initial release of the RIP-seq pipeline
+- Included count matrix, metadata and test data
+
