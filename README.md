@@ -207,9 +207,9 @@ Recent studies have identified several phosphorylatable residues in Rpb4 —S125
 <p align="justify">
 This project, carried out at the Institute of Functional Biology and Genomics (IBFG), aims to study and characterize the Rpb4 subunit of RNA polymerase II under different mutagenic conditions. To achieve this, two strains were generated through site‑directed mutagenesis, specifically designed to alter the phosphorylatable residues of the protein:
 
-* Rpb4‑S/T‑A: the five phosphorylatable residues identified in Rpb4 are replaced with alanine, thereby eliminating any potential phosphorylation or regulatory interaction mediated by these sites.
+* Rpb4‑S/T‑A (M1): the five phosphorylatable residues identified in Rpb4 are replaced with alanine, thereby eliminating any potential phosphorylation or regulatory interaction mediated by these sites.
 
-* Rpb4‑T193A: subunit carrying a substitution of the threonine residue at position 193 with alanine, which slightly restricts the potential phosphorylation of Rpb4.
+* Rpb4‑T193A (M12): subunit carrying a substitution of the threonine residue at position 193 with alanine, which slightly restricts the potential phosphorylation of Rpb4.
 
 The purpose of these constructs is to determine the functional role of these residues in Rpb4 activity and, consequently, in the proper performance of RNA polymerase II, assessing how phosphorylation (or its absence) influences key RNA binding sites.
 </p>
@@ -243,9 +243,13 @@ Differential expression was assessed using the DESeq2 package. This allows us to
 ## Results
 ### PCA
 <p float="left">
-  <img src="Plots/real/PCA_all_samples.png" width="70%"
+  <img src="Plots/real/PCA_IN_only.png" width="45%" />
+  <img src="Plots/real/PCA_IP_only.png" width="45%" />
 </p>
 
 <p align="justify">
-The principal component analysis shows that PC1 (55%) primarily separates WT from rpb4Δ. rpb4Δ is clearly shifted relative to WT, indicating a broad and consistent transcriptomic change. rpb4‑S/T→A clusters closer to WT or occupies an intermediate position, suggesting a subtler or partial effect. Overall, loss of Rpb4 produces a larger global impact on the transcriptome than the S/T→A phospho‑null mutation.
+  
+**PCA analysis of immunoprecipitated fractions (IP)** reveals that PC1 (43% of variance) separates M12 from both WT and M1, which cluster together on the opposite side of the axis. This suggests that the phospho-ablation of this single residue drives a more pronounced shift in the Rpb4-associated RNA profile than the complete loss of phosphorylation at all five sites, pointing to a dominant and non-redundant role of this specific residue in RNA binding selectivity.
+**PCA of input fractions (IN)** shows a similar trend, with M12 clearly separated from WT and M1 along PC1 (57% of variance), and notably high intra-group consistency. This indicates that ablation of this single residue has a broader impact on the global transcriptome than the combined loss of all five phosphorylatable residues, suggesting it may play a unique regulatory role beyond its contribution to the phosphorylation cluster.
+**Taken together**, these results indicate a functional hierarchy among the five phosphorylatable residues of Rpb4, where the residue mutated in M12 exerts a disproportionate influence on both RNA association and global transcriptional output. The paradoxical finding that a partial phospho-ablation (M12) produces stronger transcriptomic changes than a complete one (M1) may reflect compensatory mechanisms or epistatic interactions among the five residues.
 </p>
