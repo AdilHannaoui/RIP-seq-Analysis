@@ -118,8 +118,8 @@ run_step "10" "tss-metagene" "bash/08-tss_metagene.sh" || exit 1
 # 11-16. R steps
 run_r_step "11" "load_counts" "R/01-load_counts.R" || exit 1
 run_r_step "12" "deseq2" "R/02-deseq2_analysis.R" || exit 1
-run_r_step "13" "deseq2" "R/02.1-deseq2_peaks_analysis.R" || exit 1
-run_r_step "14" "enrichment" "R/03-integrate_genes.R" || exit 1
+run_r_step "13" "deseq2 peak analysis" "R/02.1-deseq2_peaks_analysis.R" || exit 1
+run_r_step "14" "gene integration" "R/03-integrate_genes.R" || exit 1
 run_r_step "15" "enrichment" "R/04-enrichment_analysis.R" || exit 1
 run_r_step "16" "visualization" "R/05-visualizations.R" || exit 1
 
