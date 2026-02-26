@@ -55,7 +55,7 @@ run_r_step() {
     local script=$3
     local logfile="${LOG_DIR}/${step_num}-${step_name}_${TIMESTAMP}.log"
     
-    log_info "[${step_num}/8] Running ${step_name}..."
+    log_info "[${step_num}/16] Running ${step_name}..."
     
     if Rscript "$script" > "$logfile" 2>&1; then
         log_info "✓ ${step_name} completed successfully"
@@ -78,7 +78,7 @@ echo "=========================================="
 mkdir -p "$LOG_DIR"
 
 # 1. Environment Activation
-log_info "[1/8] Activating Conda environment..."
+log_info "[1/16] Activating Conda environment..."
 if ! source ~/miniconda3/etc/profile.d/conda.sh; then
     log_error "Failed to source conda.sh"
     exit 1
@@ -92,7 +92,7 @@ fi
 log_info "Environment activated: $(conda info --envs | grep '*' | awk '{print $1}')"
 
 # 2. Validate configuration files
-log_info "[2/8] Validating configuration files..."
+log_info "[2/16] Validating configuration files..."
 if [[ ! -f "bash/config.sh" ]]; then
     log_error "bash/config.sh not found"
     exit 1
