@@ -1,0 +1,22 @@
+# =============================================================================
+# config/config.yaml — RIP-seq Pipeline Configuration
+# Author: Adil Hannaoui Anaaoui
+# =============================================================================
+
+# ── Directories ───────────────────────────────────────────────────────────────
+workdir:    "."
+fastq_dir:  "data/real"
+output_dir: "output/real"
+plots_dir:  "Plots/real"
+
+# ── References ────────────────────────────────────────────────────────────────
+bowtie2_index: "Bowtie2/cerevisiae/index/genome"
+gtf:           "Bowtie2/cerevisiae/Saccharomyces_cerevisiae.R64-1-1.112.gtf"
+genome_fa:     "Bowtie2/cerevisiae/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa"
+
+# ── Tools ─────────────────────────────────────────────────────────────────────
+trimmomatic_jar: "${CONDA_PREFIX}/share/trimmomatic/trimmomatic.jar"
+adapters:        "${CONDA_PREFIX}/share/trimmomatic/adapters/TruSeq3-SE.fa"
+
+# ── Resources ─────────────────────────────────────────────────────────────────
+threads: 10
