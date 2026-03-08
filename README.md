@@ -79,53 +79,37 @@ chmod +x download_test_data.sh
 bash download_test_data.sh
 ```
 
-6. **Run pipeline**
+### Run the pipeline
+
+**Option 1 — Snakemake (recommended):**
+```bash
+snakemake --cores 10
+```
+Snakemake automatically detects samples, handles parallelisation and skips already completed steps.
+
+**Option 2 — Bash (classic):**
 ```bash
 bash run_pipeline.sh
 ```
 
 ## Installation and running the pipeline
-The ```run_pipeline.sh``` script orchestrates all preprocessing, alignment, quantification, and downstream R analyses in a single command.
 
-All analyses are fully reproducible using the Conda environment defined in ```environment.yml```.
+All analyses are fully reproducible using the Conda environment defined in `environment.yml`.
 
-### Recommended: install ```mamba``` for faster environment creation
-Creating environments that include R + Bioconductor can be slow with the default Conda solver. For a much faster and smoother installation, it is recommended to install mamba in the base environment
-
-```conda install -n base mamba```
-
-then create the environment using:
-
-```
-mamba env create -f environment.yml
+### Run with Snakemake (recommended)
+Snakemake automatically detects samples, handles parallelisation and skips 
+already completed steps.
+```bash
+snakemake --cores 10
 ```
 
-If you prefer to use Conda:
-
-```
-conda env create -f environment.yml
-```
-
-Activate the environment
-
-```
-conda activate ripseq-rpb4
-```
-
-Before running the pipeline, ensure execution permissions:
-
-```
-chmod +x run_pipeline.sh
-chmod +x bash/*.sh
-```
-
-Run the full workflow with:
-
-```
+### Run with Bash (classic)
+The `run_pipeline.sh` script orchestrates all steps in a single command.
+```bash
 bash run_pipeline.sh
 ```
 
-</p>
+Both options use the same Conda environment and produce identical results.
 
 
 ## Configuration files
