@@ -281,3 +281,7 @@ message("UpSet conditions: ", length(gene_sets))
 message("Output directory: ", PLOTS_DIR)
 
 message("\n=== Visualization completed successfully ===")
+
+sink('session_info.txt')
+sessionInfo()
+sink()
