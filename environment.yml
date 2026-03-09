@@ -6,6 +6,7 @@ channels:
 
 dependencies:
   - python=3.10
+  - snakemake=7.32.4
   - pybigwig
 
   # Core system
